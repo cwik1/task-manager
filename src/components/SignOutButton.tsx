@@ -6,9 +6,17 @@ export default function SignOutButton() {
   return (
     <button
       onClick={() => signOut({ callbackUrl: "/login" })}
-      className="text-sm bg-gray-100 text-gray-700 px-3 py-1.5 rounded hover:bg-gray-200"
+      style={{
+        background: "var(--color-bg-task)",
+        color: "var(--color-text-subtle)",
+        border: "0.5px solid var(--color-border)",
+        padding: "6px 12px",
+        borderRadius: "var(--radius-control)",
+        fontSize: 12,
+        cursor: "pointer"
+      }}
     >
-      Sign Out
+      Sign out
     </button>
   )
 }

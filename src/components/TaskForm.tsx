@@ -41,63 +41,105 @@ export default function TaskForm({ onSubmit, onCancel, editingTask }: TaskFormPr
     setCategory("")
   }
 
+  const inputStyle = {
+    width: "100%",
+    border: "0.5px solid var(--color-border)",
+    borderRadius: "var(--radius-control)",
+    padding: "8px 12px",
+    fontSize: 13,
+    color: "var(--color-text-heading)",
+    background: "var(--color-bg-page)",
+    outline: "none"
+  }
+
+  const labelStyle = {
+    display: "block",
+    fontSize: 12,
+    fontWeight: 500,
+    color: "var(--color-text-subtle)",
+    marginBottom: 4
+  }
+
   return (
-    <div className="bg-white rounded-lg shadow p-6 mb-6">
-      <h2 className="text-lg font-semibold text-gray-800 mb-4">
-        {editingTask ? "Edit Task" : "Add New Task"}
+    <div style={{
+      background: "var(--color-bg-page)",
+      border: "0.5px solid var(--color-border)",
+      borderRadius: "var(--radius-card)",
+      padding: 20,
+      marginBottom: 16
+    }}>
+      <h2 style={{ color: "var(--color-text-heading)", fontSize: 15, fontWeight: 500, marginBottom: 16 }}>
+        {editingTask ? "Edit task" : "Add new task"}
       </h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Title *</label>
+      <form onSubmit={handleSubmit}>
+        <div style={{ marginBottom: 12 }}>
+          <label style={labelStyle}>Title *</label>
           <input
             type="text"
             value={title}
             onChange={e => setTitle(e.target.value)}
-            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            style={inputStyle}
             required
           />
         </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+        <div style={{ marginBottom: 12 }}>
+          <label style={labelStyle}>Description</label>
           <textarea
             value={description}
             onChange={e => setDescription(e.target.value)}
-            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            style={{ ...inputStyle, resize: "vertical" }}
             rows={3}
           />
         </div>
-        <div className="flex gap-4">
-          <div className="flex-1">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Due Date</label>
+        <div style={{ display: "flex", gap: 12, marginBottom: 16 }}>
+          <div style={{ flex: 1 }}>
+            <label style={labelStyle}>Due date</label>
             <input
               type="date"
               value={dueDate}
               onChange={e => setDueDate(e.target.value)}
-              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              style={inputStyle}
             />
           </div>
-          <div className="flex-1">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+          <div style={{ flex: 1 }}>
+            <label style={labelStyle}>Category</label>
             <input
               type="text"
               value={category}
               onChange={e => setCategory(e.target.value)}
               placeholder="e.g. Work, Personal"
-              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              style={inputStyle}
             />
           </div>
         </div>
-        <div className="flex gap-3">
+        <div style={{ display: "flex", gap: 8 }}>
           <button
             type="submit"
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            style={{
+              background: "var(--color-primary)",
+              color: "white",
+              border: "none",
+              padding: "8px 16px",
+              borderRadius: "var(--radius-control)",
+              fontSize: 13,
+              fontWeight: 500,
+              cursor: "pointer"
+            }}
           >
-            {editingTask ? "Save Changes" : "Add Task"}
+            {editingTask ? "Save changes" : "Add task"}
           </button>
           <button
             type="button"
             onClick={onCancel}
-            className="bg-gray-100 text-gray-700 px-4 py-2 rounded hover:bg-gray-200"
+            style={{
+              background: "var(--color-bg-card)",
+              color: "var(--color-text-subtle)",
+              border: "0.5px solid var(--color-border)",
+              padding: "8px 16px",
+              borderRadius: "var(--radius-control)",
+              fontSize: 13,
+              cursor: "pointer"
+            }}
           >
             Cancel
           </button>

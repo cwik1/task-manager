@@ -65,6 +65,9 @@ export default function TaskList() {
     fetchTasks()
   }
 
+  const completed = tasks.filter(t => t.completed).length
+  const total = tasks.length
+
   const filteredTasks = tasks
     .filter(task => {
       if (filter === "active") return !task.completed
@@ -82,12 +85,12 @@ export default function TaskList() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex gap-3">
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <select
             value={filter}
             onChange={e => setFilter(e.target.value)}
-            className="border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            style={{ background: "var(--color-bg-page)", border: "0.5px solid var(--color-border)", color: "var(--color-text-subtle)", fontSize: 12, padding: "6px 10px", borderRadius: "var(--radius-control)" }}
           >
             <option value="all">All Tasks</option>
             <option value="active">Active</option>
@@ -96,15 +99,29 @@ export default function TaskList() {
           <select
             value={sortBy}
             onChange={e => setSortBy(e.target.value)}
-            className="border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            style={{ background: "var(--color-bg-page)", border: "0.5px solid var(--color-border)", color: "var(--color-text-subtle)", fontSize: 12, padding: "6px 10px", borderRadius: "var(--radius-control)" }}
           >
             <option value="createdAt">Sort by Date Created</option>
             <option value="dueDate">Sort by Due Date</option>
           </select>
+          {total > 0 && (
+            <span style={{ color: "var(--color-text-muted)", fontSize: 12 }}>
+              {completed} of {total} completed
+            </span>
+          )}
         </div>
         <button
           onClick={() => { setShowForm(true); setEditingTask(null) }}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm"
+          style={{
+            background: "var(--color-primary)",
+            color: "white",
+            border: "none",
+            padding: "7px 14px",
+            borderRadius: "var(--radius-control)",
+            fontSize: 12,
+            fontWeight: 500,
+            cursor: "pointer"
+          }}
         >
           + Add Task
         </button>
@@ -119,9 +136,11 @@ export default function TaskList() {
       )}
 
       {filteredTasks.length === 0 ? (
-        <p className="text-center text-gray-400 py-12">No tasks yet — click Add Task to get started!</p>
+        <p style={{ textAlign: "center", color: "var(--color-text-muted)", padding: "48px 0", fontSize: 14 }}>
+          No tasks yet — click Add Task to get started!
+        </p>
       ) : (
-        <div className="space-y-3">
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           {filteredTasks.map(task => (
             <TaskCard
               key={task.id}
