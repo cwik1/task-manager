@@ -2,11 +2,11 @@ import { NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
 import { prisma } from "@/lib/prisma"
 
-// PATCH update a task
 export async function PATCH(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params
   const session = await getServerSession()
 
   if (!session?.user?.email) {
@@ -22,7 +22,7 @@ export async function PATCH(
   }
 
   const task = await prisma.task.findFirst({
-    where: { id: params.id, userId: user.id }
+    where: { id, userId: user.id }
   })
 
   if (!task) {
@@ -32,24 +32,24 @@ export async function PATCH(
   const { title, description, dueDate, category, completed } = await req.json()
 
   const updatedTask = await prisma.task.update({
-    where: { id: params.id },
+    where: { id },
     data: {
-      title,
-      description,
-      dueDate: dueDate ? new Date(dueDate) : null,
-      category,
-      completed
+      ...(title !== undefined && { title }),
+      ...(description !== undefined && { description }),
+      ...(dueDate !== undefined && { dueDate: dueDate ? new Date(dueDate) : null }),
+      ...(category !== undefined && { category }),
+      ...(completed !== undefined && { completed }),
     }
   })
 
   return NextResponse.json(updatedTask)
 }
 
-// DELETE a task
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params
   const session = await getServerSession()
 
   if (!session?.user?.email) {
@@ -65,16 +65,14 @@ export async function DELETE(
   }
 
   const task = await prisma.task.findFirst({
-    where: { id: params.id, userId: user.id }
+    where: { id, userId: user.id }
   })
 
   if (!task) {
     return NextResponse.json({ error: "Task not found" }, { status: 404 })
   }
 
-  await prisma.task.delete({
-    where: { id: params.id }
-  })
+  await prisma.task.delete({ where: { id } })
 
   return NextResponse.json({ message: "Task deleted" })
 }
