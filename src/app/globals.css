@@ -40,3 +40,22 @@ body {
   background: var(--color-bg-page);
   color: var(--color-text-body);
 }
+
+@keyframes cellBounce {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.12); }
+  70%  { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+@keyframes dunzoPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.7; }
+}
+
+@keyframes gridShuffle {
+  0%   { transform: scale(1) rotate(0deg); }
+  25%  { transform: scale(1.015) rotate(-0.4deg); }
+  75%  { transform: scale(1.015) rotate(0.4deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
